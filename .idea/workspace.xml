@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b88512d-dfe8-4993-9c2c-42ab32d1b7fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
-    </list>
+    <list default="true" id="1b88512d-dfe8-4993-9c2c-42ab32d1b7fa" name="Changes" comment="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,8 +64,16 @@
       <option name="presentableId" value="Default" />
       <updated>1694775393392</updated>
       <workItem from="1694775395017" duration="4819000" />
-      <workItem from="1694784033679" duration="7839000" />
+      <workItem from="1694784033679" duration="7917000" />
     </task>
+    <task id="LOCAL-00001" summary="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder">
+      <created>1694795420923</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1694795420923</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -86,5 +89,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder" />
+    <option name="LAST_COMMIT_MESSAGE" value="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder" />
   </component>
 </project>
