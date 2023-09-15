@@ -1,37 +1,37 @@
-public class User {
-    private String userName;
-    private String IP;
+import java.io.*;
+import java.net.*;
 
-    public User(String userName, String IP) {
-        this.userName = userName;
-        this.IP = IP;
+class User {
+    private String username;
+    private Socket clientSocket;
+
+    public User(String username, Socket clientSocket) {
+        this.username = username;
+        this.clientSocket = clientSocket;
     }
 
-    public User() {
-
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 
-    public String getIP() {
-        return IP;
+    public void setClientSocket(Socket clientSocket) {
+        this.clientSocket = clientSocket;
     }
 
-    public void setIP(String IP) {
-        this.IP = IP;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                ", IP='" + IP + '\'' +
-                '}';
+    public void sendMessage(String message) {
+        try {
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            out.println(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

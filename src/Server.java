@@ -1,23 +1,36 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.*;
 
-public class Server {
+public class
+Server {
 
-    private HashMap<String, User> userList = new HashMap<>();
+    private static HashMap<String, User> connectedUsers = new HashMap<>();
+
+    public void addUser(String SID, Socket clientSocket) {
+
+        synchronized (connectedUsers) {
+            User user = new User("", clientSocket);
+            connectedUsers.put(SID, user);
+        }
+    }
+
+    public void sendMessageToUser(String username, String message) {
+        synchronized (connectedUsers) {
+            User user = connectedUsers.get(username);
+            if (user != null) {
+                user.sendMessage(message);
+            }
+        }
+    }
 
     private void readInput(String input) {
         String status = input.substring(0, 3);
         if (status.equals("100")) {
-            String sessionID = createUser(input.substring(3), "0");
-            System.out.println(sessionID);
-            if (sessionID.equals("")){
-                System.out.println("fejl");
-            } else {
-                System.out.println("lykkedes");
-            }
+
         }
         if (status == "200") {
-            //kald metode sendMessage
         }
         if (status == "300") {
             //kald metode sendPrivateMessage
@@ -27,45 +40,71 @@ public class Server {
         }
     }
 
-    private String createUser(String navn, String IP) {
+    public String createUser(String navn, Socket socket) {
         String result = "";
-        for (Map.Entry<String, User> entry : userList.entrySet()) {
-            System.out.println(entry.getValue().getUserName());
+        for (Map.Entry<String, User> entry : connectedUsers.entrySet()) {
             User value = entry.getValue();
-            if (value.getUserName().equals(navn.trim())) {
-                System.out.println("kevin");
-                return "kevin";
+            if (value.getUsername().equals(navn.trim())) {
+                return "";
             }
         }
-        User u = new User(navn, IP);
-        for (int i = 1000; i <= 9999; i++) {
-            if (userList.containsKey(i) == false) {
-
+        User u = new User(navn, socket);
+        for (int i = 1000; i <= 9999; i++)
+        {
+            if (connectedUsers.containsKey(i+"") == false) {
                 result = i + "";
                 break;
             }
         }
-        userList.put(result,u);
+        connectedUsers.put(result,u);
 
             return result;
     }
-
-
+    public static String findFreeSID()
+    {
+        String SID = "";
+        for (int i = 1000; i <= 9999; i++)
+        {
+            if (connectedUsers.containsKey(i+"") == false) {
+                SID = i + "";
+                break;
+            }
+        }return SID;
+ }
     public static void main(String[] args) {
-        User u1 = new User("emil12","1234");
-        User u2 = new User("emil12","1234");
-        User u3 = new User("emil1","1234");
+        Server theSever = new Server();
 
-        Server s1 = new Server();
-        s1.readInput("100emil12");
-        s1.readInput("100emil1");
-        s1.readInput("100emil12");
+        int portNumber = 1992;
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(portNumber);
+            System.out.println("Server is listening on port " + portNumber);
 
-        System.out.println();
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Accepted connection from " + clientSocket.getInetAddress());
+                String SID = findFreeSID();
+                // Create a new thread to handle the client
+                ClientHandler clientHandler = new ClientHandler(clientSocket,SID);
 
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 
     }
 
 
-}
+
