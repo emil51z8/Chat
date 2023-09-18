@@ -6,9 +6,27 @@ import java.net.*;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
     private static String sessionID = "";
+
+    static Scanner input = new Scanner(System.in);
+
+    private static String tjekBrugernavn()
+    {
+        String brugernavn = input.nextLine();
+        for(int i = 0; i < brugernavn.length(); i ++){
+            if(brugernavn.indexOf("@" && brugernavn.indexOf(" "){}
+        }
+
+    }
+    private static void clientMenu(){
+        if(sessionID.equals("999"))
+        {
+
+        }
+    }
 
     public static void main(String[] args) {
         String serverAddress = "localhost";
@@ -35,6 +53,7 @@ public class Client {
                         }
                         else{
                             // Imp+ement chat here
+
                             System.out.println("Server: " + serverMessage);
                         }
                     }

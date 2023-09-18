@@ -87,7 +87,7 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Accepted connection from " + clientSocket.getInetAddress());
+                //System.out.println("Accepted connection from " + clientSocket.getInetAddress());
                 String SID = findFreeSID();
                 theServer.addUser(SID,clientSocket);
 
@@ -111,7 +111,7 @@ public class Server {
                     } finally {
                         try {
                             clientSocket.close();
-                            System.out.println("Closed connection from " + clientSocket.getInetAddress());
+                            //System.out.println("Closed connection from " + clientSocket.getInetAddress());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
