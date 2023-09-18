@@ -43,23 +43,27 @@ public class Server {
     private Boolean readInput(String input) {
         String status = input.substring(0, 3);
         String SID = input.substring(3,7);
-        System.out.println(input);
+        System.out.println(status);
+        System.out.println(SID);
         if (status.equals("100"))
         {
            String name = input.substring(7);
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
+               System.out.println("Hejsa");
            }
            else{
                fejl = "Brugernavn er taget, vælg et nyt";
                return true;
            }
         }
-        if (status == "200") {
+        if (status.equals("200")) {
+            System.out.println("Vi er i 200 baby");
             String msg = input.substring(7);
             sendBroadcastMessage(connectedUsers.get(SID).getUsername(),msg);
+
         }
-        if (status == "300") {
+        if (status.equals("300")) {
             String splitInput = getFirstWordUsingSplit(input)[0];
             String msg = getFirstWordUsingSplit(input)[1];
 
@@ -71,9 +75,9 @@ public class Server {
                 return true;
             } else sendMessageToUser(SID,msg,recieverSID);
         }
-        if (status == "400") {
+        if (status.equals("400")) {
             sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
-           connectedUsers.remove(SID);
+            connectedUsers.remove(SID);
         }
         return false;
     }
@@ -127,21 +131,23 @@ public class Server {
                     )
                     {
                         out.println("999"+SID);
-                        String inputLine;
-
-                        while(true)
-                        {
-                            String clientUsername = in.readLine();
-                            System.out.println("Received username from client: " + clientUsername);
-                        }
-                        /*while ((inputLine = in.readLine()) != null) {
-
+                        String inputLine = "";
+                        while (true) {
+                            inputLine = in.readLine();
+                            System.out.println(inputLine);
                             Boolean fejlStatus = theServer.readInput(inputLine);
-                            if(fejlStatus = true)
+                            System.out.println(fejlStatus + " hejsa");
+                            if(fejlStatus == true)
                             {
-                                out.print(000 + fejl); // Brugernavn er taget Client skal vælge et andet
+                                out.println("000" + fejl); // Brugernavn er taget Client skal vælge et andet
                             }
-                        }*/
+                            if(fejlStatus == false)
+                            {
+                                System.out.println("Hejsa 2.0");
+                                out.println("999");
+                                out.flush();
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
