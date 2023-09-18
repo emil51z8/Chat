@@ -7,6 +7,7 @@ public class Server {
 
     private static ConcurrentHashMap<String, User> connectedUsers = new ConcurrentHashMap<>();
     private static ExecutorService executor = Executors.newFixedThreadPool(20); // Change the pool size as needed
+    private static String fejl = "";
 
     public void addUser(String SID, Socket clientSocket) {
         User user = new User("", clientSocket);
@@ -48,16 +49,26 @@ public class Server {
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
            }
-           else return true;
+           else{
+               fejl = "Brugernavn er taget, vælg et nyt";
+               return true;
+           }
         }
         if (status == "200") {
             String msg = input.substring(7);
             sendBroadcastMessage(connectedUsers.get(SID).getUsername(),msg);
         }
         if (status == "300") {
-            String reciever = input.substring(7,11);
-            String msg = input.substring(11);
-            sendMessageToUser(SID,msg,reciever);
+            String splitInput = getFirstWordUsingSplit(input)[0];
+            String msg = getFirstWordUsingSplit(input)[1];
+
+            String recieverName = splitInput.substring(7);
+            String recieverSID = findSIDforUser(recieverName);
+
+            if(recieverSID.equals("fejl")) {
+                fejl = "Bruger eksisterer ikke";
+                return true;
+            } else sendMessageToUser(SID,msg,recieverSID);
         }
         if (status == "400") {
             sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
@@ -76,6 +87,24 @@ public class Server {
             }
         }return SID;
     }
+
+    public String findSIDforUser(String username) {
+        for (Map.Entry<String, User> entry : connectedUsers.entrySet()) {
+            User user = entry.getValue();
+            if (user.getUsername().equals(username)) {
+                return entry.getKey(); // returner SID for bruger med username
+            }
+        }
+        return "fejl";
+    }
+
+
+    public String[] getFirstWordUsingSplit(String input) {
+        String[] tokens = input.split(" ", 2);
+        return tokens;
+    }
+
+
     public static void main(String[] args) {
         Server theServer = new Server();
 
@@ -100,10 +129,10 @@ public class Server {
                         out.println("999"+SID);
                         String inputLine;
                         while ((inputLine = in.readLine()) != null) {
-                            Boolean taget = theServer.readInput(inputLine);
-                            if(taget = true)
+                            Boolean fejlStatus = theServer.readInput(inputLine);
+                            if(fejlStatus = true)
                             {
-                                out.print(000); // Brugernavn er taget Client skal vælge et andet
+                                out.print(000 + fejl); // Brugernavn er taget Client skal vælge et andet
                             }
                         }
                     } catch (IOException e) {

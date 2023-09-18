@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b88512d-dfe8-4993-9c2c-42ab32d1b7fa" name="Changes" comment="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +81,7 @@
       <workItem from="1694784033679" duration="7917000" />
       <workItem from="1694800787502" duration="3390000" />
       <workItem from="1695021852786" duration="2572000" />
+      <workItem from="1695024560844" duration="2459000" />
     </task>
     <task id="LOCAL-00001" summary="lavet thread og clienthandler til at håndtere tråden og lidt nye metoder">
       <created>1694795420923</created>
