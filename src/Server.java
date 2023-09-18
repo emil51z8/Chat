@@ -43,6 +43,7 @@ public class Server {
     private Boolean readInput(String input) {
         String status = input.substring(0, 3);
         String SID = input.substring(3,7);
+        System.out.println(input);
         if (status.equals("100"))
         {
            String name = input.substring(7);
@@ -116,7 +117,6 @@ public class Server {
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                //System.out.println("Accepted connection from " + clientSocket.getInetAddress());
                 String SID = findFreeSID();
                 theServer.addUser(SID,clientSocket);
 
@@ -128,13 +128,20 @@ public class Server {
                     {
                         out.println("999"+SID);
                         String inputLine;
-                        while ((inputLine = in.readLine()) != null) {
+
+                        while(true)
+                        {
+                            String clientUsername = in.readLine();
+                            System.out.println("Received username from client: " + clientUsername);
+                        }
+                        /*while ((inputLine = in.readLine()) != null) {
+
                             Boolean fejlStatus = theServer.readInput(inputLine);
                             if(fejlStatus = true)
                             {
                                 out.print(000 + fejl); // Brugernavn er taget Client skal vælge et andet
                             }
-                        }
+                        }*/
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {

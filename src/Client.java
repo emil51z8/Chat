@@ -10,12 +10,11 @@ import java.util.Scanner;
 
 public class Client {
     private static String sessionID = "";
-
-
-
+    private static String brugerNavn = " ";
+    static Scanner input = new Scanner(System.in);
     private static String tjekBrugernavn()
     {
-        Scanner input = new Scanner(System.in);
+
         System.out.println("Opret brugernavn");
         System.out.println("Brugernavn må ikke indholde mellemrum eller @");
         String brugernavn = input.nextLine();
@@ -41,36 +40,40 @@ public class Client {
             System.out.println(valgteBrugernavn);
         }
     }
+    private static boolean sendUsernameToServer(PrintWriter out, String username) {
+        // Check if the PrintWriter is not null and the username is not empty
+        if (out != null && username != null && !username.isEmpty()) {
+            out.println(username);
+            return true;
+        } else {
+            System.out.println("prøv igen");
+            return false;
 
-    public static void main(String[] args) {
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
         String serverAddress = "localhost";
         int serverPort = 1992;
-        tjekBrugernavn();
 
-        //tjekBrugernavn();
         try (
                 Socket socket = new Socket(serverAddress, serverPort);
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
+                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
         ) {
             System.out.println("Connected to server: " + serverAddress + ":" + serverPort);
 
             Thread receiveThread = new Thread(() -> {
                 try {
                     String serverMessage;
-                    while ((serverMessage = in.readLine()) != null) {
+                        while ((serverMessage = in.readLine()) != null) {
                         if (sessionID.isEmpty() && serverMessage.substring(0, 3).equals("999")) {
                             sessionID = serverMessage.substring(3, 7);
-
-                            //tjekBrugernavn();
-
                             System.out.println("Received sessionID: " + sessionID);
                         } else if (sessionID.isEmpty() && serverMessage.substring(0, 3).equals("000"))
                         {
                             // Vælg nyt brugernavn
-                            //tjekBrugernavn();
-
                         }
                         else{
                             // Imp+ement chat here
@@ -83,17 +86,16 @@ public class Client {
             });
             receiveThread.start();
 
-            String userInput;
-            while ((userInput = stdIn.readLine()) != null) {
-
-                out.println(userInput);
-                if (userInput.equalsIgnoreCase("exit")) {
-                    // send quit besked til server
-                    break;
-                }
+            System.out.println("Skriv brugernavn");
+            String username = input.nextLine();
+            System.out.println("Sending username to server: " + username);
+            if(sendUsernameToServer(out, username) == true)
+            {
+                //continue
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            else {
+                //prøv igen
+            }
+            }
         }
-    }
-}
+        }
