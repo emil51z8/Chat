@@ -43,14 +43,11 @@ public class Server {
     private Boolean readInput(String input) {
         String status = input.substring(0, 3);
         String SID = input.substring(3,7);
-        System.out.println(status);
-        System.out.println(SID);
         if (status.equals("100"))
         {
            String name = input.substring(7);
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
-               System.out.println("Hejsa" + name);
            }
            else{
                fejl = "Brugernavn er taget, vælg et nyt";
@@ -58,7 +55,6 @@ public class Server {
            }
         }
         if (status.equals("200")) {
-            System.out.println("Vi er i 200 baby");
             String msg = input.substring(7);
             sendBroadcastMessage(connectedUsers.get(SID).getUsername(),msg);
 
@@ -136,14 +132,14 @@ public class Server {
                             inputLine = in.readLine();
                             System.out.println(inputLine);
                             Boolean fejlStatus = theServer.readInput(inputLine);
-                            System.out.println(fejlStatus + " hejsa");
+                            System.out.println("Brugernavn er taget:" +fejlStatus);
                             if(fejlStatus == true)
                             {
                                 out.println("000" + fejl); // Brugernavn er taget Client skal vælge et andet
+                                out.flush();
                             }
                             if(fejlStatus == false)
                             {
-                                System.out.println("Hejsa 2.0");
                                 out.println("999");
                                 out.flush();
                             }

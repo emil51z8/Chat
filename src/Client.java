@@ -26,21 +26,10 @@ public class Client {
                 System.out.println("Prøv igen");
                 brugernavn = tjekBrugerInput();
             }
-            System.out.println("Du har fået brugernavn " + brugernavn);
             return brugernavn;
         }
 
-
-    private static void clientMenu() {
-        if (sessionID.equals("999")) {
-            String valgteBrugernavn = tjekBrugerInput();
-            System.out.println(valgteBrugernavn);
-        }
-    }
-
-
     private static boolean sendUsernameToServer(PrintWriter out, String username) {
-        // Check if the PrintWriter is not null and the username is not empty
         if (out != null && username != null && !username.isEmpty()) {
             out.println(username);
             return true;
@@ -52,20 +41,24 @@ public class Client {
     }
 
     private static void chooseUserName(PrintWriter out, BufferedReader in) throws IOException {
-        //System.out.println("Skriv dit ønskede brugernavn");
-        //String navn = input.nextLine();
+        //Gui beder om indtastning
         String navn = tjekLovligtBrugernavn(tjekBrugerInput());
+        //sender brugernavn til server
         out.println("100" + sessionID + navn);
         System.out.println("100" + sessionID + navn);
-
-        String serverMessage;
-        while ((serverMessage = in.readLine()) != null) {
+        //venter på svar fra severen
+        String serverMessage = in.readLine();
+        while (serverMessage != null) {
+            //hvis brugernavnet er accepteret
             if (serverMessage.substring(0, 3).equals("999")) {
                 brugerNavn = navn;
                 break;
             }
+            //Hvis brugernavnet ikke er ledigt
             if (serverMessage.substring(0, 3).equals("000")) {
                 System.out.println("Brugernavn er taget prøv igen");
+                serverMessage= null;
+                //metoden kaldes igen for at vælge nyt brugernavn
                 chooseUserName(out, in);
             }
         }
