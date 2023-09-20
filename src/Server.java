@@ -50,7 +50,7 @@ public class Server {
            String name = input.substring(7);
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
-               System.out.println("Hejsa");
+               System.out.println("Hejsa" + name);
            }
            else{
                fejl = "Brugernavn er taget, vælg et nyt";

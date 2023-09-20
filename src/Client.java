@@ -4,41 +4,36 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
 
-import java.io.*;
-import java.net.*;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client {
     private static String sessionID = "";
     private static String brugerNavn = " ";
     static Scanner input = new Scanner(System.in);
 
-    private static String tjekBrugernavn() {
+    private static String tjekBrugerInput() {
 
         System.out.println("Opret brugernavn");
         System.out.println("Brugernavn må ikke indholde mellemrum eller @");
-        String brugernavn = input.nextLine();
-
-
-        boolean containsWhiteSpace = brugernavn.contains(" ");
-        boolean containsElefantNoseA = brugernavn.contains("@");
-
-        if (containsWhiteSpace || containsElefantNoseA) {
-            System.out.println("Der må ikke være mellemrum eller @ i dit brugernavn.");
-            System.out.println("Prøv igen");
-            brugernavn = "";
-            tjekBrugernavn();
-        }
-        System.out.println("Du har fået brugernavn " + brugernavn);
-        return brugernavn;
+        String brugernavnInput = input.nextLine();
+        return brugernavnInput;
     }
+
+    private static String tjekLovligtBrugernavn(String brugernavn) {
+
+            while (brugernavn.contains(" ") || brugernavn.contains("@")) {
+                System.out.println("Der må ikke være mellemrum eller @ i dit brugernavn.");
+                System.out.println("Prøv igen");
+                brugernavn = tjekBrugerInput();
+            }
+            System.out.println("Du har fået brugernavn " + brugernavn);
+            return brugernavn;
+        }
+
 
     private static void clientMenu() {
         if (sessionID.equals("999")) {
-            String valgteBrugernavn = tjekBrugernavn();
+            String valgteBrugernavn = tjekBrugerInput();
             System.out.println(valgteBrugernavn);
         }
     }
@@ -57,8 +52,9 @@ public class Client {
     }
 
     private static void chooseUserName(PrintWriter out, BufferedReader in) throws IOException {
-        System.out.println("Skriv dit ønskede brugernavn");
-        String navn = input.nextLine();
+        //System.out.println("Skriv dit ønskede brugernavn");
+        //String navn = input.nextLine();
+        String navn = tjekLovligtBrugernavn(tjekBrugerInput());
         out.println("100" + sessionID + navn);
         System.out.println("100" + sessionID + navn);
 
@@ -76,6 +72,7 @@ public class Client {
 
         }
         public static void main (String[]args) throws IOException {
+
             String serverAddress = "localhost";
             int serverPort = 1992;
             try {
@@ -111,6 +108,8 @@ public class Client {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
         }
+
     }
 
