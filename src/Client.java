@@ -61,11 +61,13 @@ public class Client {
         String navn = input.nextLine();
         out.println("100" + sessionID + navn);
         System.out.println("100" + sessionID + navn);
+        //System.out.println(in.readLine());
 
-        String serverMessage;
-        while ((serverMessage = in.readLine()) != null) {
+        String serverMessage = in.readLine(); //flyttet readLine ud af while()
+        while (serverMessage != null) {
             if (serverMessage.substring(0, 3).equals("999")) {
                 brugerNavn = navn;
+                System.out.println(brugerNavn);
                 break;
             }
             if (serverMessage.substring(0, 3).equals("000")) {
