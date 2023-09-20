@@ -58,8 +58,8 @@ public class Client {
         out.println("100" + sessionID + navn);
         System.out.println("100" + sessionID + navn);
 
-        String serverMessage;
-        while ((serverMessage = in.readLine()) != null) {
+        String serverMessage = in.readLine();
+        while (serverMessage != null) {
             if (serverMessage.substring(0, 3).equals("999")) {
                 brugerNavn = navn;
                 break;
