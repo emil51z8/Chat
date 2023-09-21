@@ -40,7 +40,7 @@ public class Server {
         return false; // Username er ledigt
     }
 
-    private Boolean readInput(String input) {
+    private void readInput(String input, PrintWriter out) {
         String status = input.substring(0, 3);
         String SID = input.substring(3,7);
         if (status.equals("100"))
@@ -48,10 +48,13 @@ public class Server {
            String name = input.substring(7);
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
+               out.println("999");
+               out.flush();
            }
            else{
-               fejl = "Brugernavn er taget, vælg et nyt";
-               return true;
+               out.println("000" + fejl); // Brugernavn er taget Client skal vælge et andet
+               out.flush();
+
            }
         }
         if (status.equals("200")) {
@@ -67,15 +70,14 @@ public class Server {
             String recieverSID = findSIDforUser(recieverName);
 
             if(recieverSID.equals("fejl")) {
-                fejl = "Bruger eksisterer ikke";
-                return true;
+                User u1 = connectedUsers.get(SID);
+                u1.sendMessage("#FEJL Bruger: " + recieverName + " Eksisterer ikke.");
             } else sendMessageToUser(SID,msg,recieverSID);
         }
         if (status.equals("400")) {
             sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
             connectedUsers.remove(SID);
         }
-        return false;
     }
     public static String findFreeSID()
     {
@@ -130,19 +132,7 @@ public class Server {
                         String inputLine = "";
                         while (true) {
                             inputLine = in.readLine();
-                            System.out.println(inputLine);
-                            Boolean fejlStatus = theServer.readInput(inputLine);
-                            System.out.println("Brugernavn er taget:" +fejlStatus);
-                            if(fejlStatus == true)
-                            {
-                                out.println("000" + fejl); // Brugernavn er taget Client skal vælge et andet
-                                out.flush();
-                            }
-                            if(fejlStatus == false)
-                            {
-                                out.println("999");
-                                out.flush();
-                            }
+                            theServer.readInput(inputLine, out);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

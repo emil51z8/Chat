@@ -57,13 +57,38 @@ public class Client {
             //Hvis brugernavnet ikke er ledigt
             if (serverMessage.substring(0, 3).equals("000")) {
                 System.out.println("Brugernavn er taget prøv igen");
-                serverMessage= null;
+                serverMessage = null;
                 //metoden kaldes igen for at vælge nyt brugernavn
                 chooseUserName(out, in);
             }
         }
 
+    }
+
+
+
+        public static void sendMessage(PrintWriter out) {
+            String message = input.nextLine();
+            if(message.equalsIgnoreCase("exit")){
+                out.println("400"+sessionID);
+            }
+            else{
+                if(message.charAt(0) == '@'){
+                    out.println("300"+sessionID+message.substring(1));
+                    message = null;
+                    sendMessage(out);
+                }
+                if(message != null && !message.trim().isEmpty()){
+                    out.println("200" + sessionID + message);
+                    message = null;
+                    sendMessage(out);
+                }
+            }
         }
+
+
+
+
         public static void main (String[]args) throws IOException {
 
             String serverAddress = "localhost";
@@ -85,18 +110,23 @@ public class Client {
                 }
                 chooseUserName(out,in);
 
-
                 Thread receiveThread = new Thread(() -> {
                     try {
                         String inputMessage;
                         while ((inputMessage = in.readLine()) != null) {
                          //skriv til gui
+                            System.out.println(inputMessage);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
+
                 receiveThread.start();
+                sendMessage(out);
+                receiveThread.stop();
+
+
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
