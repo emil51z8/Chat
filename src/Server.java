@@ -10,6 +10,15 @@ public class Server {
     private static ExecutorService executor = Executors.newFixedThreadPool(20); // Change the pool size as needed
     private static String fejl = "";
 
+    public String activeUsers(){
+        String activeUsername = "";
+        for (Map.Entry<String, User> entry : connectedUsers.entrySet()){
+            activeUsername += entry.getValue().getUsername() + "\n";
+        }
+
+        return activeUsername;
+    }
+
     public void addUser(String SID, Socket clientSocket) {
         User user = new User("", clientSocket);
         connectedUsers.put(SID, user);
@@ -111,6 +120,10 @@ public class Server {
         if (status.equals("400")) {
             serverBroadcastMessage(connectedUsers.get(SID).getUsername(),"har forladt chatten");
             connectedUsers.remove(SID);
+        }
+
+        if(status.equals("500")){
+            activeUsers();
         }
     }
     public static String findFreeSID()
