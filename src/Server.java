@@ -48,7 +48,26 @@ public class Server {
         }
         return false; // Username er ledigt
     }
+    public void sendRecentHistory(User user)
+    {
+        ArrayList<Message> past5Messages = new ArrayList<>();
 
+        if(chatHistory.size()> 5)
+        {
+
+            //for at få de sidste 5 beskeder tager vi den besked på plads size()-5 og går 1 op per omgang i for loop.
+          for (int i = 0 ; i<5; i++)
+          {
+              past5Messages.add(chatHistory.get(chatHistory.size()-5+i));
+          }
+        }
+        else past5Messages =  chatHistory;
+        for(int i = 0; i<past5Messages.size(); i++)
+        {
+            user.sendMessage(past5Messages.get(i).getUser().getUsername()+ " : " + past5Messages.get(i).getMsg());
+        }
+
+    }
     private void readInput(String input, PrintWriter out) {
         String status = input.substring(0, 3);
         String SID = input.substring(3,7);
@@ -59,12 +78,12 @@ public class Server {
                updateName(SID, name);
                out.println("999");
                serverBroadcastMessage(name, "har tilsluttet sig chatten");
+               sendRecentHistory(connectedUsers.get(SID));
                out.flush();
            }
            else{
                out.println("000" + fejl); // Brugernavn er taget Client skal vælge et andet
                out.flush();
-
            }
         }
         if (status.equals("200")) {
@@ -90,7 +109,7 @@ public class Server {
             } else sendMessageToUser(SID,msg,recieverSID);
         }
         if (status.equals("400")) {
-            sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
+            serverBroadcastMessage(connectedUsers.get(SID).getUsername(),"har forladt chatten");
             connectedUsers.remove(SID);
         }
     }
