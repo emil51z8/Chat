@@ -11,7 +11,7 @@ public class Server {
     private static String fejl = "";
 
     public String activeUsers(){
-        String activeUsername = "";
+        String activeUsername = "Liste over brugere: " + "\n";
         for (Map.Entry<String, User> entry : connectedUsers.entrySet()){
             activeUsername += entry.getValue().getUsername() + "\n";
         }
@@ -121,9 +121,9 @@ public class Server {
             serverBroadcastMessage(connectedUsers.get(SID).getUsername(),"har forladt chatten");
             connectedUsers.remove(SID);
         }
-
         if(status.equals("500")){
-            activeUsers();
+            connectedUsers.get(SID).sendMessage(activeUsers());
+
         }
     }
     public static String findFreeSID()

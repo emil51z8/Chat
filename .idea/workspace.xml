@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b88512d-dfe8-4993-9c2c-42ab32d1b7fa" name="Changes" comment="Har lavet en serverBroadcast metoder der skriver ud til alle klienterne, når der er en bruger der har fået valideret sit brugernavn og er &quot;joinet&quot; chatten." />
+    <list default="true" id="1b88512d-dfe8-4993-9c2c-42ab32d1b7fa" name="Changes" comment="Har lavet en serverBroadcast metoder der skriver ud til alle klienterne, når der er en bruger der har fået valideret sit brugernavn og er &quot;joinet&quot; chatten.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -69,9 +69,6 @@ public class Client {
             if(message.equalsIgnoreCase("exit")){
                 out.println("400"+sessionID);
             }
-            else if(message.equalsIgnoreCase("!Brugere")){
-                out.println(500 + sessionID);
-            }
             else{
                 if(message.length() == 0)
                 {
@@ -83,6 +80,9 @@ public class Client {
                     message = null;
                     sendMessage(out);
                 }
+                if(message.equalsIgnoreCase("!Brugere")){
+                    out.println("500" + sessionID);
+                }
                 if(message != null && !message.trim().isEmpty()){
                     out.println("200" + sessionID + message);
                     message = null;
@@ -90,9 +90,6 @@ public class Client {
                 }
             }
         }
-
-
-
 
         public static void main (String[]args) throws IOException {
 
@@ -129,7 +126,7 @@ public class Client {
 
                 receiveThread.start();
                 sendMessage(out);
-                receiveThread.stop();
+                receiveThread.interrupt();
 
 
 
