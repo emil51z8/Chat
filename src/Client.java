@@ -72,6 +72,9 @@ public class Client {
             if(message.equalsIgnoreCase("exit")){
                 out.println("400"+sessionID);
             }
+            else if(message.equalsIgnoreCase("!Brugere")){
+                out.println(500 + sessionID);
+            }
             else{
                 if(message.charAt(0) == '@'){
                     out.println("300"+sessionID+message.substring(1));
