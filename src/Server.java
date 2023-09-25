@@ -90,7 +90,8 @@ public class Server {
             } else sendMessageToUser(SID,msg,recieverSID);
         }
         if (status.equals("400")) {
-            sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
+            //sendBroadcastMessage("Server :", connectedUsers.get(SID).getUsername() + " har forladt chatten");
+            serverBroadcastMessage(connectedUsers.get(SID).getUsername(),"har forladt chatten");
             connectedUsers.remove(SID);
         }
     }
