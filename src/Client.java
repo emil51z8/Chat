@@ -91,7 +91,7 @@ public class Client {
 
         public static void main (String[]args) throws IOException {
 
-            String serverAddress = "localhost";
+            String serverAddress = "10.200.130.36";
             int serverPort = 1992;
             try {
                 Socket socket = new Socket(serverAddress, serverPort);

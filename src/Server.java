@@ -26,6 +26,14 @@ public class Server {
             user.sendMessage(name+": " +message);
         }
     }
+
+    public void serverBroadcastMessage(String name, String message){
+        for(Map.Entry<String,User> entry : connectedUsers.entrySet()){
+            User user = entry.getValue();
+            user.sendMessage(name + " " + message);
+        }
+    }
+
     public void updateName(String SID, String name)
     {
         connectedUsers.get(SID).setUsername(name);
@@ -49,6 +57,7 @@ public class Server {
            if (isUsernameTaken(name) == false) {
                updateName(SID, name);
                out.println("999");
+               serverBroadcastMessage(name, "har tilsluttet sig chatten");
                out.flush();
            }
            else{
