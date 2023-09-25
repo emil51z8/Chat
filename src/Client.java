@@ -64,15 +64,17 @@ public class Client {
         }
 
     }
-
-
-
         public static void sendMessage(PrintWriter out) {
             String message = input.nextLine();
             if(message.equalsIgnoreCase("exit")){
                 out.println("400"+sessionID);
             }
             else{
+                if(message.length() == 0)
+                {
+                    message = null;
+                    sendMessage(out);
+                }
                 if(message.charAt(0) == '@'){
                     out.println("300"+sessionID+message.substring(1));
                     message = null;

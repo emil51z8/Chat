@@ -6,6 +6,7 @@ import java.util.concurrent.*;
 public class Server {
 
     private static ConcurrentHashMap<String, User> connectedUsers = new ConcurrentHashMap<>();
+    private static ArrayList<Message> chatHistory =  new ArrayList<>();
     private static ExecutorService executor = Executors.newFixedThreadPool(20); // Change the pool size as needed
     private static String fejl = "";
 
@@ -69,6 +70,11 @@ public class Server {
         if (status.equals("200")) {
             String msg = input.substring(7);
             sendBroadcastMessage(connectedUsers.get(SID).getUsername(),msg);
+            Message m1 = new Message();
+            m1.setUser(connectedUsers.get(SID));
+            m1.setMsg(msg);
+            m1.setDate(new Date());
+            chatHistory.add(m1);
 
         }
         if (status.equals("300")) {
